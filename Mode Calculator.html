@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mode Calculator</title>
+    <style>
+
+*{text-align:center;
+margin:0 auto;
+}
+
+body{
+    background:#bdd5ea;
+}
+
+h1{
+    background-color: #3a6ee8;
+   padding: 10px;
+}
+
+h2{
+    margin-bottom: 30px ;
+}
+
+.div{
+    margin:0 auto;
+    text-align:center;
+}
+
+.mainText{
+    margin-top: 50px;
+    margin-bottom:50px;
+
+}
+
+button{
+    font-size: 20px;
+display: block;  
+padding: 10px;
+margin: 20px auto;
+
+}
+
+textarea{
+font-size: 20px;
+width: 500px;
+min-width: 400px;
+max-width: 800px;
+min-height: 100px;
+height: 100px;
+max-height: 200px;
+}
+
+#res{
+  font-size: 20px;  
+}
+
+
+
+</style>
+</head>
+<body>
+<h1>Mode Calculator</h1>
+<div class="mainText">
+<p>Here you can find the <b>mode</b> of a given set of numbers</p>
+<p>The mode is the most frequently ocurring number in a data set</p>
+<p>This application only recognizes (integer) numbers</p>
+</div>
+    <div class="div">
+        <h2>Enter values</h2>
+        <textarea  id="mode"></textarea>
+        <button id="go">Calculate</button>
+        <p id="res"></p>
+        
+    </div>
+<script>
+
+const userIn = document.getElementById("mode");
+const res = document.getElementById("res");
+const go = document.getElementById("go");
+
+const calc = ()=>{  
+var checkerA = 0; 
+var checkerB = 0;
+var mode;
+
+const collectValues = userIn.value.split(",");
+var convertValues = collectValues.filter( n=> {if(n===0 || n <=9) return n} )    
+//convertValues.map((n)=> parseInt(n))
+//convertValues = convertValues.filter(n=> n!= NaN )
+
+console.log(convertValues)
+
+for(let i=0; i<convertValues.length; i++){
+    checkerA =0;
+
+    for(let j =0;j<convertValues.length;j++){
+        if(convertValues[i] === convertValues[j]){
+            checkerA++
+        }
+    }
+if(checkerA > checkerB){
+    checkerB = checkerA
+    mode= convertValues[i]
+}
+
+if(checkerB === 1){
+    mode= `<br>There is no mode for the given range since all numbers are different from each other. `
+}
+
+}    
+
+    res.innerHTML = 
+    `The mode of the given range is: <b>${mode}</b> <br>
+    Population: ${convertValues.length}`
+    console.log(checkerB +" " + checkerA)
+    console.log(`Mode: ${mode}`)
+
+    userIn.value = convertValues;
+
+}
+
+
+
+go.addEventListener("click",calc);
+</script>
+
+</body>
+</html>
