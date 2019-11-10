@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mode Calculator</title>
+    <title>Median Calculator</title>
     <style>
         * {
             text-align: center;
@@ -68,34 +68,35 @@
 </head>
 
 <body>
-    <h1>Mode Calculator</h1>
+    <h1>Median Calculator</h1>
     <div class="mainText">
-        <p>Here you can find the <b>mode</b> of a given set of numbers.</p>
-        <p>The mode is the most frequently ocurring number in a data set.</p>
+        <p>Here you can find the <b>median</b> of a given set of numbers.</p>
+        <p>The median is the number just in the middle of a set of numbers for an odd set of numbers, and the average of
+            the two numbers in the middle of a even set of numbers.</p>
         <p>This application only recognizes (integer) numbers.</p>
     </div>
     <div class="div">
         <h2>Enter values</h2>
-        <textarea id="mode"></textarea>
+        <textarea id="median"></textarea>
         <button id="go">Calculate</button>
         <p id="res"></p>
 
     </div>
     <div class="external">
         <p>Go <a href="Average.html">here</a> to calculate the average.</p>
-        <p>Go <a href="Median Calculator.html">here</a> to calculate the median.</p>
+        <p>Go <a href="Mode Calculator.html">here</a> to calculate the mode.</p>
     </div>
 
 
     <script>
-        const userIn = document.getElementById("mode");
+        const userIn = document.getElementById("median");
         const res = document.getElementById("res");
         const go = document.getElementById("go");
 
         const calc = () => {
             var checkerA = 0;
             var checkerB = 0;
-            var mode = 0;
+            var median = 0;
             var modeB = 0;
             var valACnt = 0;
             var valBCnt = 0;
@@ -103,62 +104,56 @@
             const collectValues = userIn.value.split(
                 ","); //This will return an array containing all data entered without commas
             console.log(`collected values: ${collectValues}`)
-
             var convertValues = collectValues.map((n) => parseInt(
                 n)) //This will convert the data of the previously generated array to numbers
             convertValues = convertValues.filter(
                 Boolean
             ) //This will take care of removing values entered not convertible to numbers. Boolean parameter only return numbers
             console.log(`collected values after map: ${collectValues}`)
+            console.log(convertValues, "jdj")
 
-            for (let i = 0; i < convertValues.length; i++) {
-                checkerA = 0
-                for (let j = 0; j < convertValues.length; j++) {
-                    if (convertValues[i] === convertValues[j]) {
-                        checkerA++
-                    }
+            //Bubble sort
+            for (let x = 0; x < convertValues.length; x++) {
+                var aux = 0;
+                // console.log(`we're here: ${convertValues[x]}`)
+                if (convertValues[x] > convertValues[x + 1]) {
+                    aux = convertValues[x + 1];
+                    convertValues[x + 1] = convertValues[x];
+                    convertValues[x] = aux;
                 }
-                if (checkerA > valACnt) {
-                    valACnt = checkerA;
-                    mode = convertValues[i]
+                for (let y = 0; y < convertValues.length; y++) {
+                    var aux = 0;
+                    // console.log(`we're here: ${convertValues[x]}`)
+                    if (convertValues[y] > convertValues[y + 1]) {
+                        aux = convertValues[y + 1];
+                        convertValues[y + 1] = convertValues[y];
+                        convertValues[y] = aux;
+                    }
                 }
             }
 
-            console.log("checker A:", checkerA)
-            console.log("Mode:", mode)
+            console.log("cv", convertValues)
+            console.log("cv l ", convertValues.length / 2 + (1 / 2))
 
-
-            for (let i = 0; i < convertValues.length; i++) {
-                checkerB = 0;
-                for (let j = 0; j < convertValues.length; j++) {
-                    if (convertValues[i] === convertValues[j] && convertValues[i] !== mode) {
-                        console.log("kovert:", convertValues[i])
-                        checkerB++
-                    }
-                }
-                if (checkerB > valBCnt) {
-                    valBCnt = checkerB;
-                    modeB = convertValues[i]
-                }
-            }
-            console.log("checker B:", checkerB)
-            console.log("valBcnt:", valBCnt)
-            console.log("valacnt:", valACnt)
-            console.log("Mode b:", modeB)
-
-            if (valACnt === valBCnt && valACnt > 1 && valBCnt > 1) {
-                mode = `<b>The provided data contains values with equal quantity of numbers.</b>`;
-            } else if (checkerA > 1) {
-                mode = `<b>The mode for the entered values is:</b> ${mode}`;
+            if (convertValues.length % 2 != 0) {
+                console.log("odd")
+                let divisor = (convertValues.length / 2) + (1 / 2) - 1;
+                median = convertValues[divisor]
             } else {
-                mode = `<b>There is no mode for the entered values.</b>`;
+                console.log("even")
+                let a = convertValues[convertValues.length / 2 - 1];
+                let b = convertValues[convertValues.length / 2]
+                console.log(`a: ${a}, b: ${b}`)
+                median = (a + b) / 2;
             }
+
+
+            console.log('median', median)
 
             res.innerHTML =
-                `${mode}<br>
+                `<b>The median for the given range is:</b> ${median}<br>
     <b>Population:</b> ${convertValues.length}`
             console.log(checkerB + " " + checkerA)
-            console.log(`Mode: ${mode}`)
             userIn.value = convertValues;
         }
 
