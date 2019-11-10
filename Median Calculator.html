@@ -42,6 +42,9 @@
             margin-bottom: 50px;
 
         }
+        .mainText p{
+            margin: 10px auto;
+        }
 
         button {
             font-size: 20px;
@@ -71,8 +74,9 @@
     <h1>Median Calculator</h1>
     <div class="mainText">
         <p>Here you can find the <b>median</b> of a given set of numbers.</p>
-        <p>The median is the number just in the middle of a set of numbers for an odd set of numbers, and the average of
-            the two numbers in the middle of a even set of numbers.</p>
+        <p>The <b>median</b> is the number just in the middle of a set of numbers for an <b>odd</b> set of numbers</p> 
+        <p>The average of the two numbers in the middle of an <b>even</b> set of numbers.</p>
+        <p>The set of numbers must should be in <b>increasing</b> or <b>decreasing</b> order.</p>
         <p>This application only recognizes (integer) numbers.</p>
     </div>
     <div class="div">
@@ -134,7 +138,8 @@
 
             console.log("cv", convertValues)
             console.log("cv l ", convertValues.length / 2 + (1 / 2))
-
+            
+      
             if (convertValues.length % 2 != 0) {
                 console.log("odd")
                 let divisor = (convertValues.length / 2) + (1 / 2) - 1;
@@ -150,15 +155,22 @@
 
             console.log('median', median)
 
-            res.innerHTML =
+            if(convertValues.length ===1 ){
+                res.innerHTML = 'Please enter more than one value.'
+            }else{
+                res.innerHTML =
                 `<b>The median for the given range is:</b> ${median}<br>
     <b>Population:</b> ${convertValues.length}`
             console.log(checkerB + " " + checkerA)
             userIn.value = convertValues;
         }
 
+            }        
+
+     
+
         go.addEventListener("click", calc);
-        document.addEventListener("keydown", (e) => {
+        document.body.addEventListener("keydown", (e) => {
             console.log(e)
             if (e.keyCode === 13) {
                 calc();
